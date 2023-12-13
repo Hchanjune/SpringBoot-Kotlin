@@ -116,6 +116,7 @@ class JsonWebTokenFilter(
 
     /**
      * Refresh Token Related functions
+     * For Now, This Logic does not save The Token To DB, however Consider Saving Token To DB and improve the Security
      */
 
     private fun isRefreshTokenRequest(request: HttpServletRequest): Boolean {
