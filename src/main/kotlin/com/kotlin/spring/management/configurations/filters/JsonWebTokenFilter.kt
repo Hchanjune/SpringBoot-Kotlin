@@ -17,6 +17,9 @@ import org.springframework.web.filter.OncePerRequestFilter
 class JsonWebTokenFilter(
     private val jwtProvider: JwtProvider
 ): OncePerRequestFilter() {
+    // Refresh Token Request URI
+    private val REFRESH_REQUEST_PATH = "/api/jwt/refresh"
+
     private val logger = LoggerFactory.getLogger(JsonWebTokenFilter::class.java)
     private val pathMatcher = AntPathMatcher()
 
@@ -25,16 +28,29 @@ class JsonWebTokenFilter(
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
+        // Refresh Token
+        if (isRefreshTokenRequest(request)) {
+            handleRefreshTokenRequest(request, response)
+            return
+        }
+
+        // Access Token
         if (pathMatcher.match("/api/**", request.servletPath) &&
             !pathMatcher.match("/api/login", request.servletPath)) {
             if (!processJwtAuthentication(request, response)) {
                 return
             }
         }
+
         if (!response.isCommitted) {
             filterChain.doFilter(request, response)
         }
     }
+
+
+    /**
+     * AccessToken Verify
+     */
 
     private fun processJwtAuthentication(
         request: HttpServletRequest,
@@ -42,10 +58,10 @@ class JsonWebTokenFilter(
     ): Boolean {
         try {
             logger.info("JwtFilterChain Activated - RequestURI[${request.servletPath}]")
-            val token = jwtProvider.extractTokenFromHttpRequest(request)
+            val token = jwtProvider.extractAccessTokenFromHttpRequest(request)
             if (SecurityContextHolder.getContext().authentication == null) {
-                if (token != null && jwtProvider.validateToken(token)) {
-                    SecurityContextHolder.getContext().authentication = jwtProvider.extractAuthentication(token)
+                if (token != null && jwtProvider.validateAccessToken(token)) {
+                    SecurityContextHolder.getContext().authentication = jwtProvider.extractAuthenticationFromAccessToken(token)
                     logger.info("Request Successful")
                     return true
                 }
@@ -61,6 +77,10 @@ class JsonWebTokenFilter(
         }
         return false
     }
+
+    /**
+     * Error Handlers
+     */
 
     private fun handleJwtException(response: HttpServletResponse, exception: JwtException) {
         logger.info("Request Failed - JwtException")
@@ -91,6 +111,32 @@ class JsonWebTokenFilter(
         response.status = HttpServletResponse.SC_BAD_REQUEST
         response.contentType = MediaType.APPLICATION_JSON_VALUE
         response.writer.write("{\"message\": \"Authorization error: Invalid token.\"}")
+        response.writer.flush()
+    }
+
+    /**
+     * Refresh Token Related functions
+     */
+
+    private fun isRefreshTokenRequest(request: HttpServletRequest): Boolean {
+        return request.servletPath == REFRESH_REQUEST_PATH
+    }
+
+    private fun handleRefreshTokenRequest(
+        request: HttpServletRequest,
+        response: HttpServletResponse
+    ) {
+        val refreshToken = jwtProvider.extractRefreshTokenFromHttpRequest(request)
+        response.contentType = MediaType.APPLICATION_JSON_VALUE
+        if (refreshToken != null && jwtProvider.validateRefreshToken(refreshToken)) {
+            val authentication = jwtProvider.extractAuthenticationFromRefreshToken(refreshToken)
+            val newAccessToken = jwtProvider.generateToken(authentication.name)
+            response.status = HttpServletResponse.SC_OK
+            response.writer.write("{\"accessToken\": \"$newAccessToken\"}")
+        } else {
+            response.status = HttpServletResponse.SC_UNAUTHORIZED
+            response.writer.write("{\"error\": \"Invalid refresh token\"}")
+        }
         response.writer.flush()
     }
 
