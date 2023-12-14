@@ -131,7 +131,7 @@ class JsonWebTokenFilter(
         response.contentType = MediaType.APPLICATION_JSON_VALUE
         if (refreshToken != null && jwtProvider.validateRefreshToken(refreshToken)) {
             val authentication = jwtProvider.extractAuthenticationFromRefreshToken(refreshToken)
-            val newAccessToken = jwtProvider.generateToken(authentication.name)
+            val newAccessToken = jwtProvider.generateAccessToken(authentication.name)
             response.status = HttpServletResponse.SC_OK
             response.writer.write("{\"accessToken\": \"$newAccessToken\"}")
         } else {

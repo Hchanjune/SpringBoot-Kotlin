@@ -33,7 +33,7 @@ class JwtProvider(private val customUserDetailsService: CustomUserDetailService)
         private val REFRESH_TOKEN_SECRET_KEY: SecretKey = Keys.hmacShaKeyFor(REFRESH_TOKEN_KEY_STRING.toByteArray())
     }
 
-    fun generateToken(id: String): String {
+    fun generateAccessToken(id: String): String {
         val userObject = customUserDetailsService.getUserObjectById(id)
         return Jwts.builder()
             .header()

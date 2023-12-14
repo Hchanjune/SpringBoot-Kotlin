@@ -28,7 +28,7 @@ class ManagementApplicationTests() {
     fun contextLoads() {
 
         val registrationForm: UserRegistrationForm = UserRegistrationForm(
-            id = "admin3",
+            id = "admin5",
             password = "rkskekfkakqktk1@",
             passwordCheck = "rkskekfkakqktk1@",
             name = "어드민",
