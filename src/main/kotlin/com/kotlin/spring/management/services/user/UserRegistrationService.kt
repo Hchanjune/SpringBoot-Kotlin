@@ -58,7 +58,7 @@ class UserRegistrationService(
         processingUtil: ProcessingUtil,
         registrationForm: UserRegistrationForm
     ): ServiceResponse<Boolean> {
-        if (validateUserRegistrationForm(processingUtil, registrationForm).extractStatus()) {
+        if (this.validateUserRegistrationForm(processingUtil, registrationForm).extractStatus()) {
             processingUtil.addFunction(
                 "사용자 정보 DB 저장",
                 {
@@ -79,7 +79,7 @@ class UserRegistrationService(
             processingUtil.addFunction(
                 "비밀번호 암호화 후 DB 저장",
                 {
-                    userRegistrationMapper.insertNewUserCredentials(registrationForm.id, passwordEncoder.encode(registrationForm.password))== 1
+                    (userRegistrationMapper.insertNewUserCredentials(registrationForm.id, passwordEncoder.encode(registrationForm.password))== 1)
                 },
                 false
             ).let { process->
@@ -94,9 +94,27 @@ class UserRegistrationService(
                 }
             }
             processingUtil.addFunction(
+                "비밀번호 만료일 DB 설정",
+                {
+                    userBasicService.extendUserPasswordExpiration(registrationForm.id).extractStatus(false)
+                },
+                false
+            ).let { process->
+                if (!process) {
+                    return ServiceResponse.simpleStatus(
+                        "UserRegistrationService - registerNewUser",
+                        {false},
+                        null,
+                        "비밀번호 만료일을 DB에 저장 하는도중 오류가 발생하였습니다.",
+                        processingUtil
+                    )
+                }
+            }
+            processingUtil.addFunction(
                 "유저 권한 DB 저장",
                 {
-                    userRegistrationMapper.insertNewUserRoleGuest(registrationForm.id) == 1
+                    (userRegistrationMapper.insertNewUserRoleGuest(registrationForm.id) == 1)
+
                 },
                 false
             ).let { process->
@@ -122,7 +140,7 @@ class UserRegistrationService(
     }
 
 
-    fun validateUserRegistrationForm(
+    private fun validateUserRegistrationForm(
         processingUtil: ProcessingUtil,
         registrationForm: UserRegistrationForm
     ): ServiceResponse<Boolean> {

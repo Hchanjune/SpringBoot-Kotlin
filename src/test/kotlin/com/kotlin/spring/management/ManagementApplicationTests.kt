@@ -1,6 +1,7 @@
 package com.kotlin.spring.management
 
 import com.kotlin.spring.management.dto.user.UserDTO
+import com.kotlin.spring.management.dto.user.UserPasswordChangeForm
 import com.kotlin.spring.management.dto.user.UserRegistrationForm
 import com.kotlin.spring.management.repositories.mappers.user.UserBasicMapper
 import com.kotlin.spring.management.services.user.UserBasicService
@@ -51,6 +52,18 @@ class ManagementApplicationTests() {
     fun test2(){
         var userData: UserDTO = userBasicMapper.selectUserById("admin")
         println(userData.id)
+    }
+
+    @Test
+    fun passwordChange() {
+        val processingUtil = ProcessingUtil("User Update Password")
+        val userPasswordChangeForm = UserPasswordChangeForm ("admin1123", "wjsguscks1@", "wjsguscks1@", "wjsguscks1@")
+        userBasicService.modifyUserPassword(userPasswordChangeForm, processingUtil).extractStatus()
+    }
+
+    @Test
+    fun extend(){
+        userBasicService.extendUserPasswordExpiration("admin").extractStatus()
     }
 
 
