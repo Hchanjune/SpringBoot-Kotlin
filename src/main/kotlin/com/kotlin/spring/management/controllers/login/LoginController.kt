@@ -72,7 +72,7 @@ class LoginController(private val userLoginService: UserLoginService) {
         @RequestBody loginRequest: LoginRequest
     ): ResponseEntity<ResponseVo> {
         logger.info(loginRequest.toString())
-        val response: ResponseVo = userLoginService.apiLoginService(loginRequest.id, loginRequest.password).adaptForApi()
+        val response: ResponseVo = userLoginService.apiLoginService(loginRequest.id, loginRequest.password).toApi()
         return ResponseEntityGenerator.generateResponse(response)
     }
 

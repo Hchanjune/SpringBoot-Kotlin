@@ -261,9 +261,9 @@ class ServiceResponse<T>(
         )
     }
 
-    fun <Boolean> returnFalse(
+    fun returnFalse(
         customFailureMessage: String? = null,
-    ) : ServiceResponse<kotlin.Boolean> {
+    ) : ServiceResponse<Boolean> {
         return ServiceResponse(
             serviceName = this.serviceName,
             status = "fail",
@@ -335,7 +335,7 @@ class ServiceResponse<T>(
         model.addAttribute(modelName, data)
     }
 
-    override fun adaptForApi(): ResponseVo {
+    override fun toApi(): ResponseVo {
         return ResponseVo(
             status = this.status,
             message = this.message,

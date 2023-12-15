@@ -5,5 +5,5 @@ import org.springframework.web.servlet.ModelAndView
 
 interface ResponseAdapter {
     fun appendModel(model: Model, modelName: String)
-    fun adaptForApi(): ResponseVo
+    fun toApi(): ResponseVo
 }

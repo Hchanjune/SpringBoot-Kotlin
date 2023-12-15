@@ -20,7 +20,7 @@ class UserRestController(
     @Parameter(name = "id", description = "유저 아이디")
     @GetMapping("/get/userInfo/{id}")
     fun getUserInfo(@PathVariable id: String): ResponseEntity<ResponseVo> {
-        return ResponseEntityGenerator.generateResponse(userBasicService.getUserById(id).adaptForApi())
+        return ResponseEntityGenerator.generateResponse(userBasicService.getUserById(id).toApi())
     }
 
 

@@ -134,7 +134,7 @@ class UserBasicService(
             "UserBasicService - extendUserPasswordExpiration",
             {
                 val process = userBasicMapper.upsertUserPasswordExpiration(id)
-                process == 1 || process == 2
+                process == 1 || process == 2 // MyBatis Integer Code {1= Insert, 2=Update}
             },
             "비밀번호 변경기간이 3개월 연장 되었습니다.",
             "비밀번호 변경기한 연장 중 문제가 발생하였습니다."
