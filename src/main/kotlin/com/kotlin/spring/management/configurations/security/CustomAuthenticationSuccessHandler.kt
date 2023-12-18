@@ -29,10 +29,10 @@ class CustomAuthenticationSuccessHandler(
         // Configure LoginSuccess Response URL
         if (isUserPasswordExpired){
             // Expired URL
-            response.sendRedirect(request.contextPath + "/")
+            response.sendRedirect(request.contextPath + "/expired")
         } else {
             // Main
-            response.sendRedirect(request.contextPath + "/")
+            response.sendRedirect(request.contextPath + "/valid")
         }
 
     }

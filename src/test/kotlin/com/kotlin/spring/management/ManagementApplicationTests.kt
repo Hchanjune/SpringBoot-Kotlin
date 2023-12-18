@@ -5,6 +5,7 @@ import com.kotlin.spring.management.dto.user.UserPasswordChangeForm
 import com.kotlin.spring.management.dto.user.UserRegistrationForm
 import com.kotlin.spring.management.repositories.mappers.user.UserBasicMapper
 import com.kotlin.spring.management.services.user.UserBasicService
+import com.kotlin.spring.management.services.user.UserCommonService
 import com.kotlin.spring.management.services.user.UserCredentialsService
 import com.kotlin.spring.management.services.user.UserRegistrationService
 import com.kotlin.spring.management.utils.ProcessingUtil.ProcessingUtil
@@ -23,7 +24,7 @@ class ManagementApplicationTests() {
     private lateinit var userCredentialsService: UserCredentialsService
 
     @Autowired
-    private lateinit var userBasicService: UserBasicService
+    private lateinit var userCommonService: UserCommonService
 
     @Autowired
     private lateinit var userBasicMapper: UserBasicMapper
@@ -48,13 +49,7 @@ class ManagementApplicationTests() {
 
     @Test
     fun test() {
-        var userData: UserDTO = userBasicService.getUserById("admin").extractData()
-    }
-
-    @Test
-    fun test2(){
-        var userData: UserDTO = userBasicMapper.selectUserById("admin")
-        println(userData.id)
+        var userData: UserDTO = userCommonService.getUserById("admin").extractData()
     }
 
     @Test

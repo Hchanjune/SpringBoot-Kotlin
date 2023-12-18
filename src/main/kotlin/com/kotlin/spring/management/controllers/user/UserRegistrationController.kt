@@ -3,6 +3,7 @@ package com.kotlin.spring.management.controllers.user
 import com.kotlin.spring.management.domains.common.apiResponse.ResponseVo
 import com.kotlin.spring.management.dto.user.UserRegistrationForm
 import com.kotlin.spring.management.services.user.UserBasicService
+import com.kotlin.spring.management.services.user.UserCommonService
 import com.kotlin.spring.management.services.user.UserRegistrationServiceImpl
 import com.kotlin.spring.management.utils.ProcessingUtil.ProcessingUtil
 import com.kotlin.spring.management.utils.ResponseEntityGenerator.ResponseEntityGenerator
@@ -21,7 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 @Controller
 @RequestMapping("/user/register")
 class UserRegistrationController(
-    private val userBasicService: UserBasicService,
+    private val userCommonService: UserCommonService,
     private val userRegistrationService: UserRegistrationServiceImpl
 ) {
 
@@ -49,7 +50,7 @@ class UserRegistrationController(
     fun isIdDuplicated(
         @PathVariable(value = "id") id: String,
     ): ResponseEntity<ResponseVo> {
-        val response = userBasicService.isUserExistsInDatabase(id).toApi()
+        val response = userCommonService.isUserExistsInDatabase(id).toApi()
         return ResponseEntityGenerator.generateResponse(response)
     }
 

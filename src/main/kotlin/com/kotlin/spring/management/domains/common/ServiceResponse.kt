@@ -214,7 +214,7 @@ class ServiceResponse<T>(
     ): ServiceResponse<Boolean> {
         return try {
             val data = dataSupplier()
-            if (data != null && data == true){
+            if (data != null && (data == true || data == false)){
                 ServiceResponse(
                     serviceName = serviceName,
                     status = "success",

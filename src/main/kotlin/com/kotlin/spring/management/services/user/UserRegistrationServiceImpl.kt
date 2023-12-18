@@ -31,7 +31,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class UserRegistrationServiceImpl(
-    private val userBasicService: UserBasicService,
+    private val userCommonService: UserCommonService,
     private val userCredentialsService: UserCredentialsService,
     private val userRegistrationMapper: UserRegistrationMapper
 ) : UserRegistrationService {
@@ -149,7 +149,7 @@ class UserRegistrationServiceImpl(
         processingUtil.addFunction(
             "아이디 중복 체크",
             processFunction = {
-                !userBasicService.isUserExistsInDatabase(registrationForm.id).extractStatus()
+                !userCommonService.isUserExistsInDatabase(registrationForm.id).extractStatus()
             },
             false
         ).let { process->

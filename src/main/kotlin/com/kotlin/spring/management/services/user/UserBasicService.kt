@@ -8,10 +8,6 @@ import java.time.LocalDateTime
 
 interface UserBasicService {
 
-    fun getUserById(id: String): ServiceResponse<UserDTO>
 
-    fun getUserListAll(): ServiceResponse<List<UserDTO>>
-
-    fun isUserExistsInDatabase(id: String): ServiceResponse<Boolean>
 
 }

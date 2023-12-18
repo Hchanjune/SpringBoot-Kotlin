@@ -3,6 +3,7 @@ package com.kotlin.spring.management.configurations.security.userDetails
 import com.kotlin.spring.management.configurations.security.loginLogs.LoginLogService
 import com.kotlin.spring.management.dto.user.UserDTO
 import com.kotlin.spring.management.services.user.UserBasicService
+import com.kotlin.spring.management.services.user.UserCommonService
 import com.kotlin.spring.management.services.user.UserCredentialsService
 import io.jsonwebtoken.Claims
 import org.springframework.security.core.userdetails.UserDetails
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class CustomUserDetailService(
-    private val userBasicService: UserBasicService,
+    private val userCommonService: UserCommonService,
     private val userCredentialsService: UserCredentialsService,
     private val loginLogService: LoginLogService
 ) : UserDetailsService {
@@ -39,7 +40,7 @@ class CustomUserDetailService(
     }
 
     fun getUserObjectById(id: String): UserDTO {
-        return userBasicService.getUserById(id).extractData()
+        return userCommonService.getUserById(id).extractData()
     }
 
 }

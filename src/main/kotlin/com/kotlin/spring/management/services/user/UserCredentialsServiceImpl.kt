@@ -1,7 +1,6 @@
 package com.kotlin.spring.management.services.user
 
 import com.kotlin.spring.management.domains.common.ServiceResponse
-import com.kotlin.spring.management.dto.user.UserDTO
 import com.kotlin.spring.management.dto.user.UserPasswordChangeForm
 import com.kotlin.spring.management.repositories.mappers.user.UserCredentialsMapper
 import com.kotlin.spring.management.utils.ProcessingUtil.ProcessingUtil
@@ -10,12 +9,10 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
-import java.util.function.Predicate
-import java.util.stream.Collectors
 
 @Service
 class UserCredentialsServiceImpl(
-    private val userBasicService: UserBasicService,
+    private val userCommonService: UserCommonService,
     private val userCredentialsMapper: UserCredentialsMapper,
     private val passwordEncoder: PasswordEncoder
 )
@@ -23,11 +20,13 @@ class UserCredentialsServiceImpl(
 
     val logger = LoggerFactory.getLogger(UserCredentialsServiceImpl::class.java)
 
+
+
     override fun authenticateCredentials(
         id: String,
         rawPassword: String
     ): ServiceResponse<Boolean> {
-        if (!userBasicService.isUserExistsInDatabase(id).extractStatus(false)) {
+        if (!userCommonService.isUserExistsInDatabase(id).extractStatus(false)) {
             return ServiceResponse.simpleStatus(
                 "User Authentication",
                 { false },
@@ -125,7 +124,7 @@ class UserCredentialsServiceImpl(
     }
 
     override fun isUserPasswordExpired(id: String) : ServiceResponse<Boolean> {
-        val response = ServiceResponse<Boolean>("UserCredentialsService - checkUserPasswordExpiration")
+        val response = ServiceResponse<Boolean>("UserCredentialsService - isUserPasswordExpired")
         return response.returnStatus(
             { this.getUserPasswordExpirationDate(id).extractData().isBefore(LocalDateTime.now()) },
             "$id 유저의 비밀번호 만료 여부를 성공적으로 조회 하였습니다.",
@@ -146,7 +145,7 @@ class UserCredentialsServiceImpl(
     override fun processDormantAccounts(): ServiceResponse<String> {
         val response = ServiceResponse<String>("UserCredentialsService - processDormantAccounts (DailySchedule)")
         val sixMonthAgo = LocalDateTime.now().minusMonths(6)
-        val userList = userBasicService.getUserListAll().extractData()
+        val userList = userCommonService.getUserListAll().extractData()
 
         // Users That Have Logged In At Least Once
         val userIdList = userList

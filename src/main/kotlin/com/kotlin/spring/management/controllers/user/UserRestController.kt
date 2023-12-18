@@ -2,6 +2,7 @@ package com.kotlin.spring.management.controllers.user
 
 import com.kotlin.spring.management.domains.common.apiResponse.ResponseVo
 import com.kotlin.spring.management.services.user.UserBasicService
+import com.kotlin.spring.management.services.user.UserCommonService
 import com.kotlin.spring.management.utils.ResponseEntityGenerator.ResponseEntityGenerator
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
@@ -13,14 +14,14 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/api/user")
 class UserRestController(
-    private val userBasicService: UserBasicService
+    private val userCommonService: UserCommonService
 ) {
 
     @Operation(summary = "GetUserInfoById", description = "ID에 맞는 유저 정보를 불러옵니다.")
     @Parameter(name = "id", description = "유저 아이디")
     @GetMapping("/get/userInfo/{id}")
     fun getUserInfo(@PathVariable id: String): ResponseEntity<ResponseVo> {
-        return ResponseEntityGenerator.generateResponse(userBasicService.getUserById(id).toApi())
+        return ResponseEntityGenerator.generateResponse(userCommonService.getUserById(id).toApi())
     }
 
 
