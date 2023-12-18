@@ -2,7 +2,7 @@ package com.kotlin.spring.management.controllers.login
 
 import com.kotlin.spring.management.domains.common.apiResponse.ResponseVo
 import com.kotlin.spring.management.domains.common.login.LoginRequest
-import com.kotlin.spring.management.services.user.UserLoginService
+import com.kotlin.spring.management.services.user.UserLoginServiceImpl
 import com.kotlin.spring.management.utils.ResponseEntityGenerator.ResponseEntityGenerator
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -19,7 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 @Tag(name = "LoginController", description = "LoginController")
 @Controller
-class LoginController(private val userLoginService: UserLoginService) {
+class LoginController(private val userLoginService: UserLoginServiceImpl) {
     private val logger = LoggerFactory.getLogger(LoginController::class.java)
 
 

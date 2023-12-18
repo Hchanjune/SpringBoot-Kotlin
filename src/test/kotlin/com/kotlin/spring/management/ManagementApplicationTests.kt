@@ -5,12 +5,12 @@ import com.kotlin.spring.management.dto.user.UserPasswordChangeForm
 import com.kotlin.spring.management.dto.user.UserRegistrationForm
 import com.kotlin.spring.management.repositories.mappers.user.UserBasicMapper
 import com.kotlin.spring.management.services.user.UserBasicService
+import com.kotlin.spring.management.services.user.UserCredentialsService
 import com.kotlin.spring.management.services.user.UserRegistrationService
 import com.kotlin.spring.management.utils.ProcessingUtil.ProcessingUtil
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import java.lang.RuntimeException
 
 @SpringBootTest
 class ManagementApplicationTests() {
@@ -18,6 +18,9 @@ class ManagementApplicationTests() {
 
     @Autowired
     private lateinit var userRegistrationService: UserRegistrationService
+
+    @Autowired
+    private lateinit var userCredentialsService: UserCredentialsService
 
     @Autowired
     private lateinit var userBasicService: UserBasicService
@@ -58,12 +61,12 @@ class ManagementApplicationTests() {
     fun passwordChange() {
         val processingUtil = ProcessingUtil("User Update Password")
         val userPasswordChangeForm = UserPasswordChangeForm ("admin1123", "wjsguscks1@", "wjsguscks1@", "wjsguscks1@")
-        userBasicService.modifyUserPassword(userPasswordChangeForm, processingUtil).extractStatus()
+        userCredentialsService.modifyUserPassword(userPasswordChangeForm, processingUtil).extractStatus()
     }
 
     @Test
     fun extend(){
-        userBasicService.extendUserPasswordExpiration("admin").extractStatus()
+        userCredentialsService.extendUserPasswordExpiration("admin").extractStatus()
     }
 
 

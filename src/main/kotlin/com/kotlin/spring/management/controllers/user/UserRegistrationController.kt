@@ -3,7 +3,7 @@ package com.kotlin.spring.management.controllers.user
 import com.kotlin.spring.management.domains.common.apiResponse.ResponseVo
 import com.kotlin.spring.management.dto.user.UserRegistrationForm
 import com.kotlin.spring.management.services.user.UserBasicService
-import com.kotlin.spring.management.services.user.UserRegistrationService
+import com.kotlin.spring.management.services.user.UserRegistrationServiceImpl
 import com.kotlin.spring.management.utils.ProcessingUtil.ProcessingUtil
 import com.kotlin.spring.management.utils.ResponseEntityGenerator.ResponseEntityGenerator
 import jakarta.servlet.http.HttpServletRequest
@@ -22,7 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 @RequestMapping("/user/register")
 class UserRegistrationController(
     private val userBasicService: UserBasicService,
-    private val userRegistrationService: UserRegistrationService
+    private val userRegistrationService: UserRegistrationServiceImpl
 ) {
 
 

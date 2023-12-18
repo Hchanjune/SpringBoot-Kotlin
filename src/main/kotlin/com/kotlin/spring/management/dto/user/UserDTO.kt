@@ -15,5 +15,7 @@ data class UserDTO(
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     var inserted: LocalDateTime? = null,
     var certification: Boolean = false,
-    var roles: List<String> = listOf("")
+    var roles: List<String> = listOf(""),
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    var lastLogin: LocalDateTime? = null
 )
