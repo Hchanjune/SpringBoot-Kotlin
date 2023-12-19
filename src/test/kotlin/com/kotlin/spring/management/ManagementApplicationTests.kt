@@ -61,7 +61,7 @@ class ManagementApplicationTests() {
 
     @Test
     fun extend(){
-        userCredentialsService.extendUserPasswordExpiration("admin").extractStatus()
+        userCommonService.getUserById("admin").extractData()
     }
 
 
