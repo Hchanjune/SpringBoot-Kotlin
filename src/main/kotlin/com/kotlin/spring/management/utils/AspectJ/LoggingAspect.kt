@@ -1,0 +1,19 @@
+package com.kotlin.spring.management.utils.AspectJ
+
+import org.aspectj.lang.JoinPoint
+import org.aspectj.lang.annotation.Aspect
+import org.aspectj.lang.annotation.Before
+import org.slf4j.LoggerFactory
+
+@Aspect
+class LoggingAspect {
+
+    val logger = LoggerFactory.getLogger(LoggingAspect::class.java)
+
+
+    @Before("execution(* com.kotlin.spring.management.*.*(..))")
+    fun logBeforeMethod(joinPoint: JoinPoint){
+        logger.info("Method Call: ${joinPoint.signature.name}")
+    }
+
+}

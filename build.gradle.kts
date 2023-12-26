@@ -31,23 +31,28 @@ repositories {
 
 dependencies {
 
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-configuration-processor
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+    // SpringBoot Starter Web
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    // Spring AOP
+    implementation("org.springframework.boot:spring-boot-starter-aop")
+    // SpringBoot Dev Tools
+    // Test Utils (Starter for testing Spring Boot applications with libraries including JUnit Jupiter, Hamcrest and Mockito)
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test
+    testImplementation("org.springframework.boot:spring-boot-starter-test:3.1.5")
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
     // JDBC Driver For SpringBoot Starter
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
 
     // ThymeLeaf
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 
-    // SpringBoot Starter Web
-    implementation("org.springframework.boot:spring-boot-starter-web")
-
-    // SpringBoot Dev Tools
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
-
-    // Jackson Module Kotlin
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     // Kotlin Reflect
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+    // Jackson Module Kotlin
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     // Spring Security (SpringBoot Starter Security 3.1.5)
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security
@@ -67,21 +72,12 @@ dependencies {
 
 
 
-
-    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-configuration-processor
-    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-
-    // Test Utils (Starter for testing Spring Boot applications with libraries including JUnit Jupiter, Hamcrest and Mockito)
-    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test
-    testImplementation("org.springframework.boot:spring-boot-starter-test:3.1.5")
-
     // MyBatis Spring Boot Starter
     // https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter
     implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.2")
     // MyBatis TypeHandler
     // https://mvnrepository.com/artifact/org.mybatis/mybatis-typehandlers-jsr310
     implementation("org.mybatis:mybatis-typehandlers-jsr310:1.0.2")
-
 
     // MariaDB JavaClient 3.2.0
     // https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client
@@ -94,6 +90,17 @@ dependencies {
     // (Swagger) SpringDoc Starter - WebMVC 2.2.0
     // https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
+
+
+
+    // AspectJ Weaver 1.9.21
+    // https://mvnrepository.com/artifact/org.aspectj/aspectjweaver
+    compileOnly("org.aspectj:aspectjweaver:1.9.21")
+    //AspectJ Runtime 1.9.21
+    // https://mvnrepository.com/artifact/org.aspectj/aspectjrt
+    implementation("org.aspectj:aspectjrt:1.9.21")
+
+
 
 }
 
