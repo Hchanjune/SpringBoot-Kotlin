@@ -9,7 +9,7 @@ plugins {
 }
 
 noArg {
-    annotation("com.kotlin.spring.management.annotations.NoArgsConstructor")
+    annotation("com.kotlin.spring.management.annotations.systemCommon.NoArgsConstructor")
 }
 
 group = "com.kotlin.spring"
@@ -95,7 +95,7 @@ dependencies {
 
     // AspectJ Weaver 1.9.21
     // https://mvnrepository.com/artifact/org.aspectj/aspectjweaver
-    compileOnly("org.aspectj:aspectjweaver:1.9.21")
+    implementation("org.aspectj:aspectjweaver:1.9.21")
     //AspectJ Runtime 1.9.21
     // https://mvnrepository.com/artifact/org.aspectj/aspectjrt
     implementation("org.aspectj:aspectjrt:1.9.21")

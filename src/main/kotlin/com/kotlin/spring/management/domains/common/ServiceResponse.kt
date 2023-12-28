@@ -1,6 +1,6 @@
 package com.kotlin.spring.management.domains.common
 
-import com.kotlin.spring.management.annotations.NoArgsConstructor
+import com.kotlin.spring.management.annotations.systemCommon.NoArgsConstructor
 import com.kotlin.spring.management.domains.common.apiResponse.ResponseAdapter
 import com.kotlin.spring.management.domains.common.apiResponse.ResponseVo
 import com.kotlin.spring.management.utils.ProcessingUtil.ProcessingUtil

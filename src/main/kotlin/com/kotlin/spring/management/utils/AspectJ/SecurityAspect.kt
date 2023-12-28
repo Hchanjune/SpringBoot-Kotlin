@@ -4,9 +4,10 @@ import com.kotlin.spring.management.services.user.UserCredentialsService
 import jakarta.servlet.http.HttpServletRequest
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Before
-import org.springframework.http.server.ServletServerHttpRequest
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import org.springframework.web.context.request.RequestContextHolder
+import org.springframework.web.context.request.ServletRequestAttributes
 
 @Aspect
 @Component
@@ -14,18 +15,14 @@ class SecurityAspect(
     userCredentialsService: UserCredentialsService
 ) {
 
-    /**
-     *
-     *
-     *
-     */
+    val logger = LoggerFactory.getLogger(SecurityAspect::class.java)
 
-
-/*    @Before("")
-    fun CODE_A (){
-        val attrs = RequestContextHolder.getRequestAttributes() as ServletServerHttpRequest
-        val request: HttpServletRequest? = attrs?.servletRequest
-    }*/
+    @Before("@annotation(com.kotlin.spring.management.annotations.securityAnnotations.SecuritySample)")
+    fun securitySample (){
+        val attrs = RequestContextHolder.getRequestAttributes() as ServletRequestAttributes
+        val request: HttpServletRequest = attrs.request
+        logger.info("This Function Is About Security Sample\nRequest URI : ${request.requestURI}")
+    }
 
 
 }

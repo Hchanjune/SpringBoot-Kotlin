@@ -1,5 +1,6 @@
 package com.kotlin.spring.management.controllers.login
 
+import com.kotlin.spring.management.annotations.securityAnnotations.SecuritySample
 import com.kotlin.spring.management.domains.common.apiResponse.ResponseVo
 import com.kotlin.spring.management.domains.common.login.LoginRequest
 import com.kotlin.spring.management.services.user.UserLoginServiceImpl
@@ -24,6 +25,7 @@ class LoginController(private val userLoginService: UserLoginServiceImpl) {
 
 
     // Simple Login Page View
+    @SecuritySample
     @GetMapping("login")
     fun loginPage(): String {
         return "loginPage"

@@ -1,6 +1,6 @@
 package com.kotlin.spring.management.dto.user
 
-import com.kotlin.spring.management.annotations.NoArgsConstructor
+import com.kotlin.spring.management.annotations.systemCommon.NoArgsConstructor
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDateTime
 

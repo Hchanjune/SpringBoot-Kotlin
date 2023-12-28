@@ -13,10 +13,10 @@ class LoggingAspect {
     val logger = LoggerFactory.getLogger(LoggingAspect::class.java)
 
 
-    @Before("execution(* com.kotlin.spring.management.*.*(..))")
+/*    @Before("execution(* com.kotlin.spring.management..*.*(..))")
     fun logBeforeMethod(joinPoint: JoinPoint){
-        println("Method Call: ${joinPoint.signature.name}")
         logger.info("Method Call: ${joinPoint.signature.name}")
-    }
+    }*/
 
 }
+
