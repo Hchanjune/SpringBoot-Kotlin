@@ -14,7 +14,7 @@ logging:
         web=DEBUG:
 
 mybatis:
-  mapper-locations: classpath:/*.xml
+  mapper-locations: classpath:/mappers/**/*.xml
   configuration:
     map-underscore-to-camel-case: true
     arg-name-based-constructor-auto-mapping: true
