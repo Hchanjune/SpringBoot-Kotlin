@@ -62,16 +62,23 @@ class SecurityConfiguration(
                 crossOriginResourcePolicy { policy = CrossOriginResourcePolicy.CROSS_ORIGIN } //CORP
             }
             authorizeHttpRequests {
+                /** Static Assets Permit */
                 authorize("/css/**", permitAll)
                 authorize("/js/**", permitAll)
                 authorize("/assets/**", permitAll)
 
+                /** Login SignIn Permit */
                 authorize("/login", permitAll)
                 authorize("/api/login", permitAll)
                 authorize("/user/register/**", permitAll)
+
+                /** Swagger Permit */
                 authorize("/swagger-ui.html", permitAll)
                 authorize("/swagger-ui/**", permitAll)
+                authorize("/v3/api-docs/**", permitAll)
+                authorize("/swagger-resources/**", permitAll)
 
+                /** Authenticate The Others */
                 authorize("/**", authenticated)
             }
             formLogin {
