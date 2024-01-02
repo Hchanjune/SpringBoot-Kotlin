@@ -12,6 +12,7 @@ logging:
     org:
       springframework:
         web=DEBUG:
+  config: classpath:logback.xml
 
 mybatis:
   mapper-locations: classpath:/*.xml

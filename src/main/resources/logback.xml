@@ -2,7 +2,7 @@
 <configuration>
 
     <!-- 전역 로그 레벨을 INFO로 설정 -->
-    <root level="INFO">
+    <root level="DEBUG">
         <appender-ref ref="CONSOLE" />
     </root>
 
@@ -15,11 +15,11 @@
 
 
     <!-- log4jdbc 로그 레벨을 WARN로 조정 -->
-    <logger name="jdbc.sqlonly" level="WARN"/>
-    <logger name="jdbc.sqltiming" level="WARN"/>
-    <logger name="jdbc.audit" level="WARN"/>
-    <logger name="jdbc.resultset" level="WARN"/>
-    <logger name="jdbc.connection" level="WARN"/>
-    <logger name="com.zaxxer.hikari" level="WARN"/>
+    <logger name="jdbc.sqlonly" level="DEBUG"/>
+    <logger name="jdbc.sqltiming" level="DEBUG"/>
+    <logger name="jdbc.audit" level="DEBUG"/>
+    <logger name="jdbc.resultset" level="DEBUG"/>
+    <logger name="jdbc.connection" level="DEBUG"/>
+    <logger name="com.zaxxer.hikari" level="DEBUG"/>
 
 </configuration>
