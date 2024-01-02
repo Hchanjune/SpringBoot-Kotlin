@@ -13,14 +13,30 @@ White Page
     <span th:text="${#authentication?.principal?.id} ?: 'No User'">[Username]</span>
 </div>
 
-<button id="test-btn">test</button>
+<button id="test-btn" onclick="consoleMachine();">test</button>
 
 
 <script th:inline="javascript">
-    const contextPath = /*[[@{/}]]*/ '';
-    $("#test-btn").click(function (){
-        alert(contextPath)
-    })
+    /*<![CDATA[*/
+
+    let test = /*[[${model2}]]*/ {id: "defaultId", name: "nameeee", email: "5123"};
+    $(document).ready(function() {
+        var variableString = /*[[${model}]]*/'Variable String';
+
+
+        changeUserName(test);
+
+    });
+
+    function changeUserName(userObject){
+        userObject.id = "changed" + userObject.id;
+    }
+
+    function consoleMachine(){
+        console.log(test.id);
+    }
+
+    /*]]>*/
 </script>
 
 </body>

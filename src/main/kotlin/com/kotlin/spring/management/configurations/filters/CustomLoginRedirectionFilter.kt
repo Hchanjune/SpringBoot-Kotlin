@@ -1,9 +1,6 @@
 package com.kotlin.spring.management.configurations.filters
 
-import jakarta.servlet.Filter
 import jakarta.servlet.FilterChain
-import jakarta.servlet.ServletRequest
-import jakarta.servlet.ServletResponse
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.apache.commons.logging.LogFactory
@@ -25,7 +22,7 @@ class CustomLoginRedirectionFilter : OncePerRequestFilter() {
         val authentication: Authentication? = SecurityContextHolder.getContext().authentication
         if ("/login" == httpRequest.requestURI) {
             if (authentication != null && authentication.isAuthenticated && authentication !is AnonymousAuthenticationToken) {
-                logger.info("Redirecting to main ContextPath because the user is already authenticated.")
+                logger.info("Redirecting to main ContextPath, The User is already authenticated.")
                 httpResponse.sendRedirect("/")
                 return
             }

@@ -13,10 +13,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.invoke
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
-import org.springframework.security.web.access.intercept.AuthorizationFilter
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.security.web.authentication.session.ChangeSessionIdAuthenticationStrategy
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher
-import org.springframework.security.web.util.matcher.RequestMatcher
+import org.springframework.security.web.header.writers.XXssProtectionHeaderWriter.HeaderValue
+import org.springframework.security.web.header.writers.CrossOriginResourcePolicyHeaderWriter.CrossOriginResourcePolicy
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
 @Configuration
 @EnableWebSecurity
@@ -38,14 +41,37 @@ class SecurityConfiguration(
     open fun configureSecurityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http {
             csrf {
-                disable()
+                //disable()
+                sessionAuthenticationStrategy = ChangeSessionIdAuthenticationStrategy() //Session Protect -> Changes Session Automatically When Authenticated
+                ignoringRequestMatchers("/api/**")
+            }
+            cors {
+                disable() // Basically Disabled For Now Additional Setting Required
+                configurationSource = UrlBasedCorsConfigurationSource().apply {
+                    registerCorsConfiguration("/**", CorsConfiguration().apply {
+                        //allowedOrigins = listOf("https://example.com")
+                        //allowedMethods = listOf("GET", "POST", "PUT", "DELETE")
+                        //allowedHeaders = listOf("Authorization", "Content-Type")
+                    })
+                }
+            }
+            headers {
+                contentSecurityPolicy { policyDirectives = "script-src 'self'; object-src 'self';" } //CSP
+                contentTypeOptions{ }
+                xssProtection { headerValue = HeaderValue.ENABLED_MODE_BLOCK } // XSS Block
+                crossOriginResourcePolicy { policy = CrossOriginResourcePolicy.CROSS_ORIGIN } //CORP
             }
             authorizeHttpRequests {
+                authorize("/css/**", permitAll)
+                authorize("/js/**", permitAll)
+                authorize("/assets/**", permitAll)
+
                 authorize("/login", permitAll)
                 authorize("/api/login", permitAll)
                 authorize("/user/register/**", permitAll)
                 authorize("/swagger-ui.html", permitAll)
                 authorize("/swagger-ui/**", permitAll)
+
                 authorize("/**", authenticated)
             }
             formLogin {
@@ -55,7 +81,7 @@ class SecurityConfiguration(
             }
             logout {
                 logoutUrl = "/logout"
-                logoutRequestMatcher = AntPathRequestMatcher("/logout", "GET")
+                logoutRequestMatcher = AntPathRequestMatcher("/logout", "GET") // Allows GET request For Temporally
                 logoutSuccessUrl = "/login"
                 invalidateHttpSession = true
                 deleteCookies("JSESSIONID")

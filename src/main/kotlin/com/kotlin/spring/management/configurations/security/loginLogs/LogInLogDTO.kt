@@ -1,6 +1,6 @@
 package com.kotlin.spring.management.configurations.security.loginLogs
 
-import com.kotlin.spring.management.annotations.NoArgsConstructor
+import com.kotlin.spring.management.annotations.systemCommon.NoArgsConstructor
 import java.time.LocalDateTime
 
 @NoArgsConstructor

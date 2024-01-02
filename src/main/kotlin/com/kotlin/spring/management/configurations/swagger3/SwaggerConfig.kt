@@ -11,6 +11,10 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class SwaggerConfig {
 
+    protected val TITLE = "Swagger3"
+    protected val DESCRIPTION = "test version \nrefreshTokenURL : /api/token/refresh"
+    protected val VERSION = "alpha test 1.0.0"
+
     @Bean
     fun openAPI(): OpenAPI {
         val securitySchemeName = "JWT Token"
@@ -22,7 +26,7 @@ class SwaggerConfig {
                     .scheme("Bearer")
                     .bearerFormat("JWT")
             ))
-            .info(Info().title("Swagger3").description("test version").version("alpha test 1.0.0"))
+            .info(Info().title(TITLE).description(DESCRIPTION).version(VERSION))
             .addSecurityItem(SecurityRequirement().addList(securitySchemeName))
     }
 }

@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity
 class ResponseEntityGenerator(){
 
     companion object{
+
+
         fun generateResponse(response: ResponseVo): ResponseEntity<ResponseVo>{
             return when (response.status){
                 "success" -> {
@@ -14,6 +16,10 @@ class ResponseEntityGenerator(){
                 }
 
                 "fail" -> {
+                    ResponseEntity(response, HttpStatus.OK)
+                }
+
+                "bad_request" -> {
                     ResponseEntity(response, HttpStatus.BAD_REQUEST)
                 }
 
@@ -22,10 +28,15 @@ class ResponseEntityGenerator(){
                 }
 
                 else ->{
-                    ResponseEntity(response, HttpStatus.INTERNAL_SERVER_ERROR)
+                    ResponseEntity(response, HttpStatus.BAD_REQUEST)
                 }
+
+
             }
         }
+
+
+
     }
 
 }

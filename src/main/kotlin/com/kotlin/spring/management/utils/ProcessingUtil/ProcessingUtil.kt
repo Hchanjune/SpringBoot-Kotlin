@@ -2,9 +2,6 @@ package com.kotlin.spring.management.utils.ProcessingUtil
 
 import org.slf4j.LoggerFactory
 import java.util.*
-import java.util.function.Supplier
-import java.util.logging.Logger
-import kotlin.math.log
 
 /** ProcessingUtil ver alpha 0.0.2 by hchanjune
  *  하나의 함수 내부에서 여러개의 비즈니스 로직을 처리할때,
@@ -116,14 +113,51 @@ class ProcessingUtil(
                 processName = processName,
                 result = false,
                 optional = optional,
-                message = message,
-                exceptionMessage = e.toString()
+                message = e.message,
+                exceptionMessage = "${e.toString()}\n => ${e.printStackTrace().toString()}"
             )
             //logger.error("\nProcess function added with exception: $processName - Exception: ${e.message}")
         }
         this["process${processCounter++}"] = processResult
         return processResult.result
     }
+
+    fun <T> addDataFunction(
+        processName: String,
+        processFunction: () -> T,
+        optional: Boolean,
+        message: String? = null
+    ) : T {
+        var processResult: ProcessResult
+        try {
+            val data = processFunction()
+            processResult = ProcessResult(
+                processName = processName,
+                result = data != null,
+                optional = optional,
+                message = if (data != null) message else "$processName - Process Returned With Null Data",
+            )
+            //logger.info("\nProcess function added: $processName - Optional: ${processResult.optional}")
+        } catch (e: Exception) {
+            processResult = ProcessResult(
+                processName = processName,
+                result = false,
+                optional = optional,
+                message = e.message,
+                exceptionMessage = "${e.toString()}\n => ${e.printStackTrace().toString()}",
+            )
+            //logger.error("\nProcess function added with exception: $processName - Exception: ${e.message}")
+        }
+        this["process${processCounter++}"] = processResult
+        return processFunction()
+    }
+
+
+
+
+
+
+
 
     fun compile(
         logOption: Boolean = true
@@ -191,5 +225,5 @@ data class ProcessResult(
     val result: Boolean,
     val optional: Boolean,
     val message: String? = null,
-    val exceptionMessage: String? = null
+    val exceptionMessage: String? = null,
 )

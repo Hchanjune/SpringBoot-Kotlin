@@ -1,15 +1,21 @@
 package com.kotlin.spring.management.configurations.security.userDetails
 
-import com.kotlin.spring.management.configurations.security.userDetails.CustomUserDetails
+import com.kotlin.spring.management.configurations.security.loginLogs.LoginLogService
 import com.kotlin.spring.management.dto.user.UserDTO
 import com.kotlin.spring.management.services.user.UserBasicService
+import com.kotlin.spring.management.services.user.UserCommonService
+import com.kotlin.spring.management.services.user.UserCredentialsService
 import io.jsonwebtoken.Claims
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Service
 
 @Service
-class CustomUserDetailService(private val userBasicService: UserBasicService) : UserDetailsService {
+class CustomUserDetailService(
+    private val userCommonService: UserCommonService,
+    private val userCredentialsService: UserCredentialsService,
+    private val loginLogService: LoginLogService
+) : UserDetailsService {
 
     override fun loadUserByUsername(username: String): UserDetails {
         val userObject = getUserObjectById(username)
@@ -20,8 +26,8 @@ class CustomUserDetailService(private val userBasicService: UserBasicService) : 
             position = userObject.position,
             phone = userObject.phone,
             inserted = userObject.inserted,
-            lastLogin = null,
-            credentials = userBasicService.getUserCredentialsById(username).extractData(),
+            lastLogin = userObject.lastLogin,
+            credentials = userCredentialsService.getUserCredentialsById(username).extractData(),
             authorities = userObject.roles
         )
     }
@@ -34,7 +40,7 @@ class CustomUserDetailService(private val userBasicService: UserBasicService) : 
     }
 
     fun getUserObjectById(id: String): UserDTO {
-        return userBasicService.getUserById(id).extractData()
+        return userCommonService.getUserById(id).extractData()
     }
 
 }
